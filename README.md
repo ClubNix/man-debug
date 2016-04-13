@@ -2,6 +2,13 @@
 
 aka « Le guide du débogueur galactique ».
 
+Compiler
+--------
+
+```bash
+latexmk -pdf main.tex
+```
+
 License
 -------
 
