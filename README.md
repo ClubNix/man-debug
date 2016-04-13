@@ -1,5 +1,6 @@
 # man-debug
-Manuel d'initiation au débogage
+
+aka « Le guide du débogueur galactique ».
 
 License
 -------
