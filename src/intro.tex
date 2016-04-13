@@ -1,0 +1,130 @@
+\part{Introduction}
+
+\paragraph{}
+
+Oyé oyé aventuriers et aventurières de la programmation en C et C++ qui
+souffrent le martyr, causé par une incompréhension entre l'ordinateur et son
+utilisateur. Ne craignez plus car ce poly est arrivé. Fini, les
+\textit{Segmentation fault}, les comportements impossibles. Tout ça sera du
+passé.
+
+\section{Vos nouveaux héros}
+
+% TODO: quick presentation of tools
+
+\section{Types de bugs}
+
+\subsection{Présentation}
+
+\paragraph{}
+
+Mère nature est une salope. Elle nous a conçus de manière imparfaite et cela
+nous oblige à tout catégoriser pour que notre pauvre cerveau puisse ne pas
+sortir de sa zone de confort. Cependant, dans le cas des bugs, cela nous permet
+de savoir quel outil sera le plus probable de nous aider à trouver l'origine du
+problème. En voici des plus connus:
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{lp{20em}p{9em}}
+		\toprule
+		\textbf{Nom} & \textbf{Description} & \textbf{Outil(s) à utiliser}\\
+		\midrule
+		Bohrbug & Avec un nom qui viens du modèle de Bohr pour les atomes,
+			cette catégorie contient les bugs ayant un comportement stable,
+			apparaissant dans des conditions stables. Ce sont les bugs les plus
+			simple à détecter, comprendre et corriger. & \textbf{gdb}\\
+		Mandelbug & Venant de la fractale de Mandelbrot, il s'agit d'un bug
+			dont les origines sont tellement complexes qu'il paraît avoir un
+			comportement chaotique. & \textbf{gdb}, \textbf{valgrind}\\
+		Shrödingbug & Un bug qui se manifeste au moment où l'on remarque que
+			le programme n'aurait jamais dû marcher. & Un facepalm\\
+		Hindenbug & Un bug stupide de la part du développeur avec des
+			conséquences catastrophiques. & Beaucoup de facepalm\\
+		Heisenbug & Un bug qui change de comportement à partir du moment où
+			l'on l'étudie. Ils sont encore plus casse-couilles que la
+			description laisse l'entendre. & \textbf{rr}, \textbf{gdb},
+			\textbf{valgrind} \\
+		\bottomrule
+	\end{tabular}%
+	\label{tab:bugtypes}
+	\caption{Types de bugs et outils appropriés}
+\end{table}
+
+\paragraph{}
+
+Notez tout de même qu'il n'y a aucune référence vers des outils de la
+partie~\ref{part:before} car ce qui sera présenté dans cette partie sera utile
+dans tous les cas de figure.
+
+\subsection{Que faire?}
+
+\subsubsection{Bohrbug}
+
+\paragraph{}
+
+Pour un ``bon vieux bug à l'ancienne'', la meilleure solution est probablement
+de réfléchir calmement. Si l'origine du bug ne vous viens pas naturellement, le
+mieux est de faire exécuter votre programme étape par étape avant l'apparition
+du bug avec \textbf{gdb} (page~\pageref{part:gdb}). Si jamais cela ne suffit
+pas, il faut essayer d'observer les changements au cours de l'exécution de
+votre programme de certaines variables critiques, cela toujours avec
+\textbf{gdb}. Si ce n'est toujours pas suffisant, essayez de voir avec
+\textbf{valgrind} (page~\pageref{part:valgrind}) si votre problème ne viens pas
+d'une erreur déterministe avec la mémoire, comme par exemple une variable se
+fait ``engloutir'' par une mauvaise utilisation d'une variable voisine.
+
+\subsubsection{Mandelbug}
+
+\paragraph{}
+
+La chose la plus importante à faire pour traiter un Mandlebug est de déterminer
+les raisons de son apparition. C'est pour ça qu'utiliser \textbf{valgrind}
+(page~\pageref{part:valgrind}) est une bonne idée pour vérifier si de la
+mémoire non-initialisée a été touchée par exemple. Si cela ne donne rien,
+essayer d'exécuter votre programme dans \textbf{gdb} (page~\pageref{part:gdb})
+de telle sorte que le bug apparaît, vous pouvez utiliser \textbf{rr}
+(page~\pageref{part:rr}) pour cela, et regarder les variables critiques qui
+pourraient amener à ce bug.
+
+
+\subsubsection{Shrödingbug}
+
+\paragraph{}
+
+Les Schrödingbug sont plutôt simple à résoudre puisque l'on vient de voir que
+le programme n'aurait jamais dû marcher. Il suffit donc de résoudre le
+problème.
+
+\subsubsection{Hindenbug}
+
+\paragraph{}
+
+Les Hindenbug arrivent le plus souvent dans des entreprises où tous les
+développeurs ne sont pas forcément intéressés à produire un code propre et
+deviennent facilement partisans d'utiliser des méthodes ``douteuses'' afin de
+résoudre un problème rapidement (ce qui sera, bien sûr, jamais votre cas). Il
+est aussi possible qu'il soit créé par des personnes vouant une haine
+particulière envers une personne de votre entreprise ou l'entreprise même. Il
+vous faudra alors probablement toucher au code qui n'est pas le vôtre et de
+bien comprendre ses subtilités avant de vous lancer dans \textbf{gdb} ou
+\textbf{valgrind}, sans oublier de contacter et discuter avec vos collègues.
+Mais le plus important, la chose la plus essentielle si ce n'est obligatoire,
+est de poster sur un blog vos déboires et la souffrance que vous avez vécu
+durant ce qui risque d'être une aventure, et de le partager.
+
+\subsubsection{Heisenbug}
+
+\paragraph{}
+
+Comme vous avez pu le deviner, ces bugs sont une horreur à déboguer et sont
+souvent indicateur de plusieurs jours d'arrachage de cheveux. L'outil le plus
+efficace qui a été créé pour l'occasion est \textbf{rr}
+(page~\pageref{part:rr}). Ce que vous aurez à faire est de faire tourner votre
+programme avec \textbf{rr} jusqu'à ce que le bug apparaisse puis utiliser
+\textbf{rr} pour pouvoir lancer \textbf{gdb} et essayer de vous en sortir de la
+même manière que vous le feriez pour un Bohrbug ou un Mandlebug.
+
+\section{Bonnes pratiques}
+
+% TODO
