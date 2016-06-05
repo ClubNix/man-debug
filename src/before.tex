@@ -1,4 +1,171 @@
 \part{Avant de déboger}%
 \label{part:before}
 
-\paragraph{}
+\paragraph{} Avant de commencer à s'aventurer plus loin dans les méandres du
+débogage, il faut d'abord vérifier et faire quelques petites choses sur la base
+de code.
+
+\section{Bonnes pratiques}
+
+\subsection{Variables}
+
+\paragraph{} Même si il peut paraître plutôt chiant de respecter certaines
+conventions quand on code, la vraie utilité des bonnes pratiques prend son
+apothéose lorsque quelque chose ne marche pas. Par exemple, nommer ces
+variables avec une seule lettre (à l'exception de l'éternel \texttt{i} comme
+variable d'itération) peut devenir la source de vos problème si vous devez
+revenir sur un bout de code écrit il y a un peu de temps.
+
+\paragraph{} De manière générale, le code doit être fait de sorte que l'on
+puisse le lire naturellement:
+
+\begin{figure}[H]
+	\centering
+	\begin{minted}{python}
+a = 'acgatagc'
+b = len(a) - 2
+d = ""
+for e in range(0, f, 3):
+  g = a[e:e+3]
+  h = i.get(g.upper(), 'X')
+  d = d + h
+	\end{minted}
+	\caption{Un mauvais exemple}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{minted}{python}
+dna              = 'acgatagc'
+last_codon_start = len(dna) - 2
+protein          = ""
+for codon_start in range(0, last_codon_start, 3):
+  codon      = dna[codon_start:codon_start+3]
+  amino_acid = genetic_code.get(codon.upper(), 'X')
+  protein    = protein + amino_acid
+	\end{minted}
+	\caption{Un bien meilleur exemple}
+\end{figure}
+
+\paragraph{} Dans les exemples juste avant, on voit bien que dans les deux cas,
+on ne comprends pas trop ce qui se passe. Mais au moins, dans le deuxième cas,
+on sait de quoi le code parle.
+
+\paragraph{} Ça n'a pas l'air de grand chose comme ça, mais il ne faut surtout
+pas avoir peur de mettre de long nom de variable dans votre code (mais quand
+même avec modération), ça vous sauvera sûrement plusieurs heures de souffrance
+si les choses tournent mal.
+
+\paragraph{Conclusion:} Ne suivez pas aveuglement les noms de variables de ces
+algorithmes qui sont tous étonnement composé d'une seule lettre et qui vont à
+coup sûr vous donner une gueule de bois le lendemain.
+
+\subsection{Unicité}
+
+\paragraph{} Il faut qu'on parle. D'unicité. Il ne s'agit pas du truc qui
+permet aux héros de battre tous ensemble l'ennemi super méchant dans les
+blockbusters américain. Bien que ça soit moins intéressant à regarder,
+l'unicité a des propriétés bien pratique. Il s'agit, dans le cas de la
+programmation, du fait qu'une fonction ne doit faire qu'une et une seule chose.
+
+\paragraph{} Appliquer cette théorie dans votre base de code vous permettant
+non seulement de rendre votre code beaucoup plus lisible, mais aussi vos
+donnera de l'inspiration pour vos nom de fonction. Si jamais vous n'arrivez pas
+à trouver un nom de fonction dans la seconde, c'est sûrement qu'il y a un
+problème.
+
+\begin{figure}[H]
+	\centering
+	\begin{minted}{c}
+void processData(Data* data, int index, int whatToDo) {
+	// Add something
+	if(whatToDo == 1) {
+		/* ... */
+	}
+	// Delete something
+	else if(whatToDo == 2) {
+		/* ... */
+	}
+	// Move something
+	else if(whatToDo == 3) {
+		/* ... */
+	} else {
+		/* ... */
+	}
+}
+	\end{minted}
+	\caption{Paaas bien. En plus le nom de la fonction nous dit rien sur ce
+		qu'elle va faire.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{minted}{c}
+void deleteData(Data* data, int index) {
+	/* ... */
+}
+
+void addData(Data* data, int index, Data dataToAdd) {
+	/* ... */
+}
+
+void moveData(Data* data, int oldIndex, int newIndex) {
+	/* ... */
+}
+	\end{minted}
+	\caption{Ça fait du bien, même si le terme ``data'' reste trop générique}
+\end{figure}
+
+\paragraph{} Si vous voulez frimez auprès de vos potes, vous pouvez appeler
+cette règle le ``Principe de responsabilité unique'' ou encore pire la ``loi de
+Curly''.
+
+\subsection{Commentaires}
+
+\paragraph{} Une domaine où une bonne partie des gens se foire est le domaine
+des commentaires ou de la documentation. La principale fonction des
+commentaires n'est pas d'expliquer ce que la partie suivante du code fait. Si
+jamais il est nécessaire d'expliquer comment une partie de votre code
+fonctionne, c'est probablement qu'il y a un problème dans votre code.
+
+\paragraph{} Comme tout votre code doit se comprendre de par lui-même, la seule
+utilité qu'il reste au commentaires est d'expliquer pourquoi cette partie de
+code est là, dans quel cas de figure cette fonction va être utilisée, etc\ldots
+Écrire des commentaires dans ce style là est très pratique pour les personnes
+qui regardent votre code (mais ça nécessite quand même que le reste soit
+clair).
+
+\begin{figure}[H]
+	\centering
+	\begin{minted}{java}
+/**
+ * A User.
+ *
+ * This stores the user id, the username and the user's address.
+ */
+public class UserModel {
+	/* ... */
+}
+	\end{minted}
+	\caption{Un exemple de commentaire complètement inutile}
+\end{figure}
+
+\paragraph{} La documentation de cette classe est complètement inutile de par
+le fait qu'il suffit de regarder quelques lignes en dessous pour voir quels
+attributs sont stockés dans la classe.
+
+\begin{figure}[H]
+	\centering
+	\begin{minted}{java}
+/**
+ * A User in the database.
+ *
+ * This class is serialized and deserialized by the Jackson library.
+ * This will be used by the Ektorp library to add, update users in the database.
+ */
+public class UserModel {
+	/* ... */
+}
+	\end{minted}
+	\caption{Un exemple de commentaire utile}
+\end{figure}
