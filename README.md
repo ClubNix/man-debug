@@ -6,7 +6,7 @@ Compiler
 --------
 
 ```bash
-latexmk -pdf main.tex
+latexmk -pdf -shell-escape main.tex
 ```
 
 License
