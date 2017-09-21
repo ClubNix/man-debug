@@ -54,3 +54,6 @@
 \renewcommand\listoflistingscaption{Liste des extraits de code}
 
 \usepackage[colorinlistoftodos]{todonotes}
+
+\let\oldpart\part
+\renewcommand{\part}[1]{\clearpage\oldpart{#1}}
