@@ -1,24 +1,25 @@
 \part{Introduction}
 
 \paragraph{} Oyé oyé aventuriers et aventurières de la programmation en C et
-C++ qui souffrent le martyr, causé par une incompréhension entre l'ordinateur
-et son utilisateur. Ne craignez plus car ce poly est arrivé. Fini, les
-\textit{Segmentation fault}, les comportements impossibles. Tout ça sera du
-passé.
+C++ (ou autres langages insignifiants) qui souffrent le martyr, venant d'une
+incompréhension avec votre propre ordinateur. Ne craignez plus car ce polycopié
+est arrivé. Fini, les \textit{Segmentation fault}, les comportements
+impossibles. Tout ça sera du passé (avec un peu de chance).
 
 \section{Vos nouveaux héros}
 
-% TODO: quick presentation of tools
+\todo[inline]{quick presentation of tools}
 
 \section{Types de bugs}
 
 \subsection{Présentation}
 
 \paragraph{} Mère nature est une salope. Elle nous a conçus de manière
-imparfaite et cela nous oblige à tout catégoriser pour que notre pauvre cerveau
-puisse ne pas sortir de sa zone de confort. Cependant, dans le cas des bugs,
-cela nous permet de savoir quel outil sera le plus probable de nous aider à
-trouver l'origine du problème. En voici des plus connus:
+imparfaite et cela nous oblige à tout catégoriser, afin que notre pauvre
+cerveau puisse rester dans sa zone de confort. Cependant, dans le cas des bugs,
+cela a ses avantages: cela nous permet de savoir quels outils seront les plus
+probables de nous aider pour trouver l'origine du problème. En voici des plus
+connus:
 
 \begin{table}[H]
 	\centering
@@ -70,7 +71,7 @@ voisine.
 \subsubsection{Mandelbug}
 
 \paragraph{} La chose la plus importante à faire pour traiter un Mandlebug est
-de déterminer les raisons de son apparition. C'est pour ça qu'utiliser
+de déterminer les conditions de son apparition. C'est pour ça qu'utiliser
 \textbf{valgrind} (page~\pageref{part:valgrind}) est une bonne idée pour
 vérifier si de la mémoire non-initialisée a été touchée par exemple. Si cela ne
 donne rien, essayer d'exécuter votre programme dans \textbf{gdb}
@@ -85,27 +86,31 @@ variables critiques qui pourraient amener à ce bug.
 de voir que le programme n'aurait jamais dû marcher. Il suffit donc de résoudre
 le problème.
 
+
 \subsubsection{Hindenbug}
 
-\paragraph{} Les Hindenbug arrivent le plus souvent dans des entreprises où
-tous les développeurs ne sont pas forcément intéressés à produire un code
-propre et deviennent facilement partisans d'utiliser des méthodes ``douteuses''
-afin de résoudre un problème rapidement (ce qui sera, bien sûr, jamais votre
-cas). Il est aussi possible qu'il soit créé par des personnes vouant une haine
-particulière envers une personne de votre entreprise ou l'entreprise même. Il
-vous faudra alors probablement toucher au code qui n'est pas le vôtre et de
-bien comprendre ses subtilités avant de vous lancer dans \textbf{gdb} ou
-\textbf{valgrind}, sans oublier de contacter et discuter avec vos collègues.
-Mais le plus important, la chose la plus essentielle si ce n'est obligatoire,
-est de poster sur un blog vos déboires et la souffrance que vous avez vécu
-durant ce qui risque d'être une aventure, et de le partager.
+\paragraph{} Les Hindenbug arrivent le plus souvent dans des entreprises /
+projets où tous les développeurs ne sont pas forcément intéressés à produire un
+code propre et deviennent facilement partisans d'utiliser des méthodes
+``douteuses'' afin de résoudre un problème rapidement (ce qui sera, bien sûr,
+jamais votre cas). Il est aussi possible qu'il soit créé par des personnes
+vouant une haine particulière envers une personne ou l'organisation en
+elle-même.
+
+\paragraph{} Il vous faudra alors probablement toucher au code qui n'est pas le
+vôtre et de bien comprendre ses subtilités avant de vous lancer dans
+\textbf{gdb} ou \textbf{valgrind}, sans oublier de contacter et discuter avec
+vos collègues.  Mais le plus important, la chose la plus essentielle si ce
+n'est obligatoire, est de poster sur un blog vos déboires et la souffrance que
+vous avez vécu durant ce qui risque d'être une aventure, et de le partager.
+
 
 \subsubsection{Heisenbug}
 
 \paragraph{} Comme vous avez pu le deviner, ces bugs sont une horreur à
 déboguer et sont souvent indicateur de plusieurs jours d'arrachage de cheveux.
-L'outil le plus efficace qui a été créé pour l'occasion est \textbf{rr}
+Un des outils des plus efficace qui a été créé pour l'occasion est \textbf{rr}
 (page~\pageref{part:rr}). Ce que vous aurez à faire est de faire tourner votre
-programme avec \textbf{rr} jusqu'à ce que le bug apparaisse puis utiliser
-\textbf{rr} pour pouvoir lancer \textbf{gdb} et essayer de vous en sortir de la
-même manière que vous le feriez pour un Bohrbug ou un Mandlebug.
+programme avec \textbf{rr} jusqu'à ce que le bug apparaisse puis demander à
+\textbf{rr} de lancer \textbf{gdb} et essayer de vous en sortir de la même
+manière que vous le feriez pour un Bohrbug ou un Mandlebug.

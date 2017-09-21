@@ -18,6 +18,7 @@
 
 ## Intermediate documents:
 *.dvi
+*.xdv
 *-converted-to.*
 # these rules might exclude image files for figures etc.
 # *.ps
@@ -36,9 +37,11 @@
 ## Build tool auxiliary files:
 *.fdb_latexmk
 *.synctex
+*.synctex(busy)
 *.synctex.gz
 *.synctex.gz(busy)
 *.pdfsync
+*Notes.bib
 
 ## Auxiliary and intermediate files from other packages:
 # algorithms
@@ -53,14 +56,31 @@ acs-*.bib
 
 # beamer
 *.nav
+*.pre
 *.snm
 *.vrb
+
+# changes
+*.soc
 
 # cprotect
 *.cpt
 
+# elsarticle (documentclass of Elsevier journals)
+*.spl
+
+# endnotes
+*.ent
+
 # fixme
 *.lox
+
+# feynmf/feynmp
+*.mf
+*.mp
+*.t[1-9]
+*.t[1-9][0-9]
+*.tfm
 
 #(r)(e)ledmac/(r)(e)ledpar
 *.end
@@ -89,6 +109,10 @@ acs-*.bib
 # gnuplottex
 *-gnuplottex-*
 
+# gregoriotex
+*.gaux
+*.gtex
+
 # hyperref
 *.brf
 
@@ -111,9 +135,10 @@ acs-*.bib
 *.maf
 *.mlf
 *.mlt
-*.mtc
-*.mtc[0-9]
-*.mtc[1-9][0-9]
+*.mtc[0-9]*
+*.slf[0-9]*
+*.slt[0-9]*
+*.stc[0-9]*
 
 # minted
 _minted*
@@ -128,10 +153,19 @@ _minted*
 # nomencl
 *.nlo
 
+# pax
+*.pax
+
+# pdfpcnotes
+*.pdfpc
+
 # sagetex
 *.sagetex.sage
 *.sagetex.py
 *.sagetex.scmd
+
+# scrwfile
+*.wrt
 
 # sympy
 *.sout
@@ -146,6 +180,9 @@ sympy-plots-for-*.tex/
 *.pytxcode
 pythontex-files-*/
 
+# thmtools
+*.loe
+
 # TikZ & PGF
 *.dpth
 *.md5
@@ -153,6 +190,9 @@ pythontex-files-*/
 
 # todonotes
 *.tdo
+
+# easy-todo
+*.lod
 
 # xindy
 *.xdy
@@ -186,6 +226,8 @@ TSWLatexianTemp*
 .upa
 .upb
 
+# expex forward references with \gathertags
+*-tags.tex
 
 ### Vim ###
 # swap

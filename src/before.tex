@@ -9,17 +9,20 @@ de code.
 
 \subsection{Variables}
 
-\paragraph{} Même si il peut paraître plutôt chiant de respecter certaines
-conventions quand on code, la vraie utilité des bonnes pratiques prend son
-apothéose lorsque quelque chose ne marche pas. Par exemple, nommer ces
-variables avec une seule lettre (à l'exception de l'éternel \texttt{i} comme
-variable d'itération) peut devenir la source de vos problème si vous devez
-revenir sur un bout de code écrit il y a un peu de temps.
+\paragraph{} Même s'il peut paraître plutôt chiant de respecter certaines
+conventions quand on code, la vraie utilité des bonnes pratiques prend tout son
+sens lorsque quelque chose ne marche pas. Rassurez vous, je ne parle pas de
+conventions de nommage de type ``préfixer \texttt{v}, \texttt{a}, ou \texttt{p}
+en fonction du type de variable'', personne ne fait ça dans la vraie vie. Au
+contraire, ce que je veux dire, c'est que par exemple nommer ses variables avec
+une seule lettre (à l'exception de l'éternel \texttt{i} comme variable
+d'itération) peut devenir la source de vos problème si vous devez revenir sur
+un bout de code venant de temps immémoriaux.
 
 \paragraph{} De manière générale, le code doit être fait de sorte que l'on
 puisse le lire naturellement:
 
-\begin{figure}[H]
+\begin{listing}[H]
 	\centering
 	\begin{minted}{python}
 a = 'acgatagc'
@@ -31,9 +34,9 @@ for e in range(0, f, 3):
   d = d + h
 	\end{minted}
 	\caption{Un mauvais exemple}
-\end{figure}
+\end{listing}
 
-\begin{figure}[H]
+\begin{listing}[H]
 	\centering
 	\begin{minted}{python}
 dna              = 'acgatagc'
@@ -45,28 +48,32 @@ for codon_start in range(0, last_codon_start, 3):
   protein    = protein + amino_acid
 	\end{minted}
 	\caption{Un bien meilleur exemple}
-\end{figure}
+\end{listing}
 
 \paragraph{} Dans les exemples juste avant, on voit bien que dans les deux cas,
 on ne comprends pas trop ce qui se passe. Mais au moins, dans le deuxième cas,
-on sait de quoi le code parle.
+on sait dans quelle domaine on se situe, et que faire pour comprendre mieux ce
+bout de code.
 
 \paragraph{} Ça n'a pas l'air de grand chose comme ça, mais il ne faut surtout
-pas avoir peur de mettre de long nom de variable dans votre code (mais quand
-même avec modération), ça vous sauvera sûrement plusieurs heures de souffrance
-si les choses tournent mal.
+pas avoir peur de mettre de long nom de variable dans votre code (mais il ne
+faut pas abuser quand même), ça vous sauvera sûrement plusieurs heures de
+souffrance si les choses tournent mal.
 
-\paragraph{Conclusion:} Ne suivez pas aveuglement les noms de variables de ces
-algorithmes qui sont tous étonnement composé d'une seule lettre et qui vont à
-coup sûr vous donner une gueule de bois le lendemain.
+\paragraph{Conclusion:} Ne copiez pas aveuglement les noms de variables de ces
+algorithmes qui sont toutes étonnement composées d'une seule lettre et qui vont
+à coup sûr vous faire vous réveiller en sueur la nuit suivante.
 
 \subsection{Unicité}
 
-\paragraph{} Il faut qu'on parle. D'unicité. Il ne s'agit pas du truc qui
-permet aux héros de battre tous ensemble l'ennemi super méchant dans les
-blockbusters américain. Bien que ça soit moins intéressant à regarder,
-l'unicité a des propriétés bien pratique. Il s'agit, dans le cas de la
-programmation, du fait qu'une fonction ne doit faire qu'une et une seule chose.
+\paragraph{} Il faut qu'on parle. D'unicité. Il ne s'agit pas du truc dans les
+blockbusters américains qui permet aux héros de battre l'ennemi super méchant,
+unis dans la camaraderie. Il s'agit au contraire de faire en sorte que chaque
+fonction, chaque classe, etc. servent un et un seul but.
+
+\paragraph{} Bien que ça soit moins intéressant à regarder, l'unicité a des
+propriétés bien pratique. Il s'agit, dans le cas de la programmation, du fait
+qu'une fonction ne doit faire qu'une et une seule chose.
 
 \paragraph{} Appliquer cette théorie dans votre base de code vous permettant
 non seulement de rendre votre code beaucoup plus lisible, mais aussi vos
@@ -74,7 +81,7 @@ donnera de l'inspiration pour vos nom de fonction. Si jamais vous n'arrivez pas
 à trouver un nom de fonction dans la seconde, c'est sûrement qu'il y a un
 problème.
 
-\begin{figure}[H]
+\begin{listing}[H]
 	\centering
 	\begin{minted}{c}
 void processData(Data* data, int index, int whatToDo) {
@@ -96,9 +103,9 @@ void processData(Data* data, int index, int whatToDo) {
 	\end{minted}
 	\caption{Paaas bien. En plus le nom de la fonction nous dit rien sur ce
 		qu'elle va faire.}
-\end{figure}
+\end{listing}
 
-\begin{figure}[H]
+\begin{listing}[H]
 	\centering
 	\begin{minted}{c}
 void deleteData(Data* data, int index) {
@@ -114,7 +121,7 @@ void moveData(Data* data, int oldIndex, int newIndex) {
 }
 	\end{minted}
 	\caption{Ça fait du bien, même si le terme ``data'' reste trop générique}
-\end{figure}
+\end{listing}
 
 \paragraph{} Si vous voulez frimez auprès de vos potes, vous pouvez appeler
 cette règle le ``Principe de responsabilité unique'' ou encore pire la ``loi de
@@ -122,20 +129,21 @@ Curly''.
 
 \subsection{Commentaires}
 
-\paragraph{} Une domaine où une bonne partie des gens se foire est le domaine
-des commentaires ou de la documentation. La principale fonction des
-commentaires n'est pas d'expliquer ce que la partie suivante du code fait. Si
+\paragraph{} Une domaine où une bonne partie des gens se foirent est le domaine
+des commentaires / de la documentation. La principale utilité de la
+documentation n'est pas d'expliquer ce que la partie suivante du code fait. Si
 jamais il est nécessaire d'expliquer comment une partie de votre code
 fonctionne, c'est probablement qu'il y a un problème dans votre code.
 
-\paragraph{} Comme tout votre code doit se comprendre de par lui-même, la seule
-utilité qu'il reste au commentaires est d'expliquer pourquoi cette partie de
-code est là, dans quel cas de figure cette fonction va être utilisée, etc\ldots
-Écrire des commentaires dans ce style là est très pratique pour les personnes
-qui regardent votre code (mais ça nécessite quand même que le reste soit
-clair).
+\paragraph{} Comme tout votre code doit se comprendre de par lui-même (à
+travers les noms de fonctions ou le code en lui-même), la seule utilité qu'il
+reste au commentaires est d'expliquer pourquoi cette partie de code est là,
+dans quel cas de figure cette fonction va être utilisée, etc. Écrire des
+commentaires dans ce style là est très pratique pour les personnes qui
+regardent ou prévoient d'utiliser votre code (mais ça nécessite quand même que
+le reste soit clair).
 
-\begin{figure}[H]
+\begin{listing}[H]
 	\centering
 	\begin{minted}{java}
 /**
@@ -144,28 +152,45 @@ clair).
  * This stores the user id, the username and the user's address.
  */
 public class UserModel {
-	/* ... */
+	/**
+	 * The ID of the user
+	 */
+	public int id;
+
+	/**
+	 * The name of the user
+	 */
+	public String username;
+
+	/**
+	 * The address of the user
+	 */
+	public String address;
 }
 	\end{minted}
-	\caption{Un exemple de commentaire complètement inutile}
-\end{figure}
+	\caption{Un exemple de documentation complètement inutile}
+\end{listing}
 
 \paragraph{} La documentation de cette classe est complètement inutile de par
 le fait qu'il suffit de regarder quelques lignes en dessous pour voir quels
 attributs sont stockés dans la classe.
 
-\begin{figure}[H]
+\begin{listing}[H]
 	\centering
 	\begin{minted}{java}
 /**
  * A User in the database.
  *
  * This class is serialized and deserialized by the Jackson library.
- * This will be used by the Ektorp library to add, update users in the database.
+ *
+ * This class is meant to be used with the Ektorp library to add, update
+ * users in the database.
  */
 public class UserModel {
-	/* ... */
+	public int id;
+	public String username;
+	public String address;
 }
 	\end{minted}
-	\caption{Un exemple de commentaire utile}
-\end{figure}
+	\caption{Un exemple de documentation utile}
+\end{listing}

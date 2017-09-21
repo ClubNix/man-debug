@@ -1,29 +1,33 @@
 \usepackage[french]{babel}
 \usepackage{fullpage}
 %\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
-\raggedbottom % prevents vertical white space on pages that cannot be filled properly
+
+% prevents vertical white space on pages that cannot be filled properly
+%\raggedbottom%
 
 \usepackage[hidelinks]{hyperref}
+\hypersetup{pdfencoding=auto}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{microtype}
+
+\usepackage{fontspec}
+\setmonofont[Scale=0.8]{Fira Mono}
 
 % Pretty tables
 \usepackage{booktabs}
 \usepackage{float}
 
-\usepackage{minted} % insérer code source
-
-\usepackage{url}
-\usepackage[usenames, dvipsnames]{color} % couleurs (nombre de base étendu)
-
-\usepackage{graphicx} % insérer images
+% Insert pictures
+\usepackage{graphicx}
 
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{amsthm}
 
+% Insert file hierarchy "diagrams"
 \usepackage{dirtree}
 
 \addto\captionsfrench{%
@@ -35,3 +39,18 @@
 	%\addcontentsline{toc}{part}{#1}
 	%{\Huge\bfseries#1}
 %}
+
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+
+% Source code listing
+\usepackage{minted}
+
+% Light Theme
+\usemintedstyle{tomorrow}
+\definecolor{bg}{rgb}{0.97,0.97,0.97}
+\setminted{linenos,bgcolor=bg,tabsize=4,breaklines}
+
+\renewcommand\listingscaption{Extrait de code}
+\renewcommand\listoflistingscaption{Liste des extraits de code}
+
+\usepackage[colorinlistoftodos]{todonotes}

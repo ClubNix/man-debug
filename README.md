@@ -2,11 +2,19 @@
 
 aka « Le guide du débogueur galactique ».
 
+Prérequis
+---------
+
+- XeLaTeX
+- La police "Fira Mono"
+- Tommorrow Pygments Theme:
+  https://github.com/MozMorris/tomorrow-pygments
+
 Compiler
 --------
 
 ```bash
-latexmk -pdf -shell-escape main.tex
+latexmk -pdf -shell-escape -xelatex -8bit main.tex
 ```
 
 License
