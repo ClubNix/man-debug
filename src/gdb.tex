@@ -1,2 +1,266 @@
 \part{Utiliser \textit{gdb}}%
 \label{part:gdb}
+
+\section{Introduction}
+
+\paragraph{} \textit{GDB} est bien plus un outil de la mort qui tue qu'il en a
+l'air au premier abord. Entre remonter dans le temps, et être en courant des
+modifications de chaque variable du programme, ce ne sont pas les
+fonctionnalités qui manquent. Commençons donc sans tarder:
+
+\begin{listing}[H]
+	\centering
+	\begin{minted}{console}
+		user@pc:~ % gdb
+		GNU gdb (My Distribution) 8.0
+		Copyright (C) 2017 Free Software Foundation, Inc.
+		License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+		This is free software: you are free to change and redistribute it.
+		There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+		and "show warranty" for details.
+		This GDB was configured as "x86_64-pc-linux-gnu".
+		Type "show configuration" for configuration details.
+		For bug reporting instructions, please see:
+		<https://bugs.gentoo.org/>.
+		Find the GDB manual and other documentation resources online at:
+		<http://www.gnu.org/software/gdb/documentation/>.
+		For help, type "help".
+		Type "apropos word" to search for commands related to "word".
+		(gdb) _
+	\end{minted}
+	\caption{Yaay, chuis trop un hacker maintenant}
+\end{listing}
+
+\paragraph{} Maintenant que l'on vient de voir ce qu'il se passe lorsqu'on
+lance \texttt{gdb}, il serait bien de l'expliquer. GDB marche en ligne de
+commande, de la même manière que la ligne de commande sous GNU/Linux ou autre,
+mais avec des commandes spécifiques à GDB. Un autre particularité des commandes
+de GDB est que l'on est pas obligé de les taper en entier. Ainsi, pour la
+commande \texttt{continue} (que l'on verra plus tard), on pourra tout
+simplement taper \texttt{c}.
+
+\paragraph{On vient de démarrer gdb, mais on débogue quoi du coup?} Très bonne
+question. On peut soit spécifier l'exécutable en executant \texttt{file
+	<exécutable>} dans la ligne de commande de gdb, soit en exécutant gdb avec
+le nom de l'exécutable: \mintinline{console}{% gdb "exécutable"}.
+
+\section{Dans l'ordre}
+
+\subsection{Le programme d'exemple}
+
+\paragraph{} On va éviter de faire les choses dans le désordre, alors reprenont
+depuis le début. On a ce code-ci:
+
+\begin{listing}[H]
+	\begin{minted}{c}
+		#include <stdio.h>
+
+		int main() {
+			char* hello;
+			printf("My string: %s\n", hello);
+		}
+	\end{minted}
+	\caption{Peux-tu trouver l'erreur?}
+\end{listing}
+
+\paragraph{} Bon, c'est un programme un peu ridicule: il essaye d'afficher une
+string qui n'a pas été initialisée. Comme les strings sont des tableaux (donc
+des pointeurs) il va essayer de récupérer les caractères stocké à partir de
+l'adresse dans la variable \texttt{hello}, qui va très très très probablement
+ne pas pointer vers quelque chose qui appartient à notre programme. Du coup:
+\textit{Segmentation Fault}.
+
+\paragraph{} Mais supposons que nous ne voyons pas cette erreur. Et supposons
+aussi que nous n'avons pas demandé à \textit{GCC} d'activer les warnings avec
+\texttt{-Wall} et \texttt{-Wextra}\ldots Comment déboger ça? Tout d'abords, il
+faut le compiler avec les symboles de débogage (utilisés par GDB) en activant
+l'option \texttt{-g} à GCC:
+
+\begin{listing}[H]
+	\begin{minted}[linenos=false]{console}
+		user@pc:/tmp % gcc main.c -o my_program -g
+	\end{minted}
+	\caption{Exemple à ne pas refaire. Il ne faut pas oublier
+		\texttt{-Wall} et \texttt{-Wextra}}
+\end{listing}
+
+\paragraph{} Un fois que le programme est correctement compilé, on verifie
+qu'il plante bien:
+
+\begin{listing}[H]
+	\begin{minted}[linenos=false]{console}
+		user@pc:/tmp % ./my_program
+		[1]    31250 segmentation fault (core dumped)  ./my_program
+	\end{minted}
+	\caption{Youpi, ça plante bien!}
+\end{listing}
+
+\subsection{Lancer GDB}
+
+\paragraph{} Une fois qu'on a notre programme bien foireux, on peut le
+déboguer! Lançons donc ce fameux GDB:
+
+\begin{listing}[H]
+	\begin{minted}[linenos=false]{console}
+		user@pc:/tmp % gdb ./my_program
+		GNU gdb (Gentoo 8.0 vanilla) 8.0
+		Copyright (C) 2017 Free Software Foundation, Inc.
+		License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+		This is free software: you are free to change and redistribute it.
+		There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+		and "show warranty" for details.
+		This GDB was configured as "x86_64-pc-linux-gnu".
+		Type "show configuration" for configuration details.
+		For bug reporting instructions, please see:
+		<https://bugs.gentoo.org/>.
+		Find the GDB manual and other documentation resources online at:
+		<http://www.gnu.org/software/gdb/documentation/>.
+		For help, type "help".
+		Type "apropos word" to search for commands related to "word"...
+		Reading symbols from ./my_program...done.
+		(gdb) _
+	\end{minted}
+\end{listing}
+
+\paragraph{} Pas beaucoup de choses ont changé depuis la dernière fois\ldots
+Mais on voit bien à l'avant-dernière ligne que gdb a bien réussi à lire les
+symboles de débogages \texttt{{\textbackslash}o/}. Ces symboles de débogages
+permettent à GDB de pouvoir associer le code binaire de l'exécutable au code
+source C, C++, etc. Concrètement, il va pouvoir vous dire où vous êtes dans le
+programme avec les lignes de codes plutôt que le code assembleur. Plutôt
+pratique donc. Il faut donc se souvenir de compiler avec \texttt{-g} quand on
+développe le programme.
+
+\paragraph{} GDB a donc bien chargé le programme, du coup étape suivante:
+lancer le programme dans GDB. Cela se fait avec la commande \texttt{run} ou
+\texttt{r} pour les intimes:
+
+\begin{listing}[H]
+	\begin{minted}[linenos=false]{text}
+		(gdb) r
+		Starting program: /tmp/my_program
+
+		Program received signal SIGSEGV, Segmentation fault.
+		0x00007ffff7ab3e86 in strlen () from /lib64/libc.so.6
+		(gdb) _
+	\end{minted}
+	\caption{On revoit la SEGFAULT à nouveau}
+\end{listing}
+
+\paragraph{Elles sont où les lignes de codes, tu nous as menti!} Oui bon on les
+vois pas tout de suite. Mais j'y viens justement. À la prochaine partie.
+
+\subsection{Naviguer dans les fonctions}
+
+\paragraph{} La première chose que l'on voit de nouveau, sur l'expert
+précédent, c'est que GDB nous indique que la fonction responsable de la
+SEGFAULT est la fonction \mintinline{c}{strlen} qui a été définie dans le
+fichier \texttt{/lib64/libc.so.6}. Mais on a pas appelé la fonction
+\mintinline{c}{strlen}, d'où elle viens alors? Il suffit de demander à GDB
+grâce à la commande \texttt{backtrace}, ou \texttt{bt} pour les intimes:
+
+\begin{listing}[H]
+	\begin{minted}[linenos=false]{text}
+		(gdb) bt
+		#0  0x00007ffff7ab3e86 in strlen () from /lib64/libc.so.6
+		#1  0x00007ffff7a77bfb in vfprintf () from /lib64/libc.so.6
+		#2  0x00007ffff7a7e6be in printf () from /lib64/libc.so.6
+		#3  0x00000000004004d5 in main () at main.c:5
+		(gdb) _
+	\end{minted}
+	\caption{On a débloqué la minimap!}
+\end{listing}
+
+\paragraph{} On y vois maintenant beaucoup plus clair. On voit que c'est bien
+\mintinline{c}{printf} qui fait ça merde et qui appelle ce qu'il veut. On voit
+aussi que la fonction \mintinline{c}{printf} a été appelée par notre
+\texttt{main} à la ligne 5. On peut checker dans notre éditeur de texte
+préféré, et comme prévu, c'est la ligne du \mintinline{c}{printf}. M'enfin
+c'est chiant de retourner sur l'éditeur de texte pour voir où on est. Alors on
+peut utiliser la commande \texttt{list} de GDB pour le faire à notre place:
+
+\begin{listing}[H]
+	\begin{minted}[linenos=false]{text}
+		(gdb) list
+		1       #include <stdio.h>
+		2
+		3       int main() {
+		4               char* hello;
+		5               printf("My string: %s\n", hello);
+		6       }
+		(gdb) _
+	\end{minted}
+	\caption{J'ai enfin ouvert les yeux}
+\end{listing}
+
+\paragraph{} Bon c'est un peu chiant de faire \texttt{list} à chaque fois, du
+coup on va utiliser l'interface cachée de GDB (ne le dites à personnes, c'est
+un secret d'État). La commande est \texttt{tui enable}. Après avoir fait cette
+commande, on se trouve face à une interface qui ressemble à ça.
+
+\begin{listing}[H]
+	\begin{minted}[linenos=false]{text}
+		   +---------------------------------------------------------------------+
+		   |                                                                     |
+		   |                                                                     |
+		   |                                                                     |
+		   |                                                                     |
+		   |                                                                     |
+		   |                                                                     |
+		   |                                                                     |
+		   |                                                                     |
+		   |                                                                     |
+		   |          [ No Source Available ]                                    |
+		   |                                                                     |
+		   |                                                                     |
+		   |                                                                     |
+		   |                                                                     |
+		   |                                                                     |
+		   |                                                                     |
+		   |                                                                     |
+		   |                                                                     |
+		   +---------------------------------------------------------------------+
+		native process 21209 In: strlen                  L??   PC: 0x7ffff7ab3e86
+		(gdb) _
+	\end{minted}
+	\caption{J'ai enfin ouvert les yeux}
+\end{listing}
+
+\paragraph{} Note: dans la suite, je ne montrerais pas l'interface dans les
+extrais de codes, parce que ça me fais chier.
+
+\paragraph{Je ne vois toujours pas les lignes\ldots} Du calme, du calme. C'est
+parce que GDB nous situe toujours dans la fonction \mintinline{c}{strlen}. Il
+faut lui dire qu'il faut qu'il nous place dans notre fonction \texttt{main}
+(sinon qu'est-ce qu'il se passerait si jamais on avait plusieurs appels de
+fonctions imbriquées qui nous appartiendraient?). Pour cela on peut utiliser
+les commandes \texttt{up}, \texttt{down} et \texttt{frame} de GDB qui nous font
+naviguer dans la \textit{backtrace}:
+
+\begin{listing}[H]
+	\begin{minted}[linenos=false]{text}
+		(gdb) bt
+		#0  0x00007ffff7ab3e86 in strlen () from /lib64/libc.so.6
+		#1  0x00007ffff7a77bfb in vfprintf () from /lib64/libc.so.6
+		#2  0x00007ffff7a7e6be in printf () from /lib64/libc.so.6
+		#3  0x00000000004004d5 in main () at main.c:5
+		(gdb) up
+		#1  0x00007ffff7a77bfb in vfprintf () from /lib64/libc.so.6
+		(gdb) up
+		#2  0x00007ffff7a7e6be in printf () from /lib64/libc.so.6
+		(gdb) down 2
+		#0  0x00007ffff7ab3e86 in strlen () from /lib64/libc.so.6
+		(gdb) frame 3
+		#3  0x00000000004004d5 in main () at main.c:5
+		(gdb) _
+	\end{minted}
+	\caption{Un peu d'exploration de la \textit{backtrace}}
+\end{listing}
+
+\paragraph{} Et maintenant, il nous affiche les lignes! Youpi!
+
+\paragraph{Je n'ai plus mon historique de commande avec les flèches :'-(} Eh
+oui, maintenant que l'on a activé l'interface, les flèches sont utilisées pour
+bouger la fenêtre qui affiche le code. D'autres touches sont assignées pour
+remonter ou descendre dans l'historique: \textit{Ctrl+P} et \textit{Ctrl+N}
+(pour Previous et Next).
