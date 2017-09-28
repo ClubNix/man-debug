@@ -3,7 +3,7 @@
 %\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
 
 % prevents vertical white space on pages that cannot be filled properly
-%\raggedbottom%
+\raggedbottom%
 
 \usepackage[hidelinks]{hyperref}
 \hypersetup{pdfencoding=auto}
@@ -48,7 +48,7 @@
 % Light Theme
 \usemintedstyle{tomorrow}
 \definecolor{bg}{rgb}{0.97,0.97,0.97}
-\setminted{linenos,bgcolor=bg,tabsize=4,breaklines}
+\setminted{linenos,bgcolor=bg,tabsize=4,breaklines,autogobble}
 
 \renewcommand\listingscaption{Extrait de code}
 \renewcommand\listoflistingscaption{Liste des extraits de code}
