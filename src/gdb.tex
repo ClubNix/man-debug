@@ -44,11 +44,9 @@ question. On peut soit spécifier l'exécutable en executant \texttt{file
 	<exécutable>} dans la ligne de commande de gdb, soit en exécutant gdb avec
 le nom de l'exécutable: \mintinline{console}{% gdb "exécutable"}.
 
-\section{Dans l'ordre}
+\section{Le programme d'exemple}
 
-\subsection{Le programme d'exemple}
-
-\paragraph{} On va éviter de faire les choses dans le désordre, alors reprenont
+\paragraph{} On va éviter de faire les choses dans le désordre, alors reprenons
 depuis le début. On a ce code-ci:
 
 \begin{listing}[H]
@@ -95,7 +93,7 @@ qu'il plante bien:
 	\caption{Youpi, ça plante bien!}
 \end{listing}
 
-\subsection{Lancer GDB}
+\section{Lancer GDB}
 
 \paragraph{} Une fois qu'on a notre programme bien foireux, on peut le
 déboguer! Lançons donc ce fameux GDB:
@@ -147,15 +145,15 @@ lancer le programme dans GDB. Cela se fait avec la commande \texttt{run} ou
 	\caption{On revoit la SEGFAULT à nouveau}
 \end{listing}
 
-\paragraph{Elles sont où les lignes de codes, tu nous as menti!} Oui bon on les
-vois pas tout de suite. Mais j'y viens justement. À la prochaine partie.
+\paragraph{Elles sont où les lignes de codes, tu nous as menti!} Oui bon on ne
+les voit pas tout de suite. Mais j'y viens justement. À la prochaine partie.
 
-\subsection{Naviguer dans les fonctions}
+\section{Naviguer dans les fonctions}
 
 \paragraph{} La première chose que l'on voit de nouveau, sur l'expert
 précédent, c'est que GDB nous indique que la fonction responsable de la
-SEGFAULT est la fonction \mintinline{c}{strlen} qui a été définie dans le
-fichier \texttt{/lib64/libc.so.6}. Mais on a pas appelé la fonction
+SEGFAULT est la fonction \mintinline{c}{strlen} qui nous viens du fichier
+\texttt{/lib64/libc.so.6}. Mais on a pas appelé la fonction
 \mintinline{c}{strlen}, d'où elle viens alors? Il suffit de demander à GDB
 grâce à la commande \texttt{backtrace}, ou \texttt{bt} pour les intimes:
 
@@ -223,7 +221,7 @@ commande, on se trouve face à une interface qui ressemble à ça.
 		native process 21209 In: strlen                  L??   PC: 0x7ffff7ab3e86
 		(gdb) _
 	\end{minted}
-	\caption{J'ai enfin ouvert les yeux}
+	\caption{Je vois TOUT!}
 \end{listing}
 
 \paragraph{} Note: dans la suite, je ne montrerais pas l'interface dans les
@@ -231,11 +229,10 @@ extrais de codes, parce que ça me fais chier.
 
 \paragraph{Je ne vois toujours pas les lignes\ldots} Du calme, du calme. C'est
 parce que GDB nous situe toujours dans la fonction \mintinline{c}{strlen}. Il
-faut lui dire qu'il faut qu'il nous place dans notre fonction \texttt{main}
-(sinon qu'est-ce qu'il se passerait si jamais on avait plusieurs appels de
-fonctions imbriquées qui nous appartiendraient?). Pour cela on peut utiliser
-les commandes \texttt{up}, \texttt{down} et \texttt{frame} de GDB qui nous font
-naviguer dans la \textit{backtrace}:
+faut lui dire qu'il faut qu'il nous place dans notre fonction
+\mintinline{c}{main}.  Pour cela on peut utiliser les commandes \texttt{up},
+\texttt{down} et \texttt{frame} de GDB qui nous font naviguer dans la
+\textit{backtrace}:
 
 \begin{listing}[H]
 	\begin{minted}[linenos=false]{text}
@@ -259,8 +256,32 @@ naviguer dans la \textit{backtrace}:
 
 \paragraph{} Et maintenant, il nous affiche les lignes! Youpi!
 
-\paragraph{Je n'ai plus mon historique de commande avec les flèches :'-(} Eh
-oui, maintenant que l'on a activé l'interface, les flèches sont utilisées pour
-bouger la fenêtre qui affiche le code. D'autres touches sont assignées pour
-remonter ou descendre dans l'historique: \textit{Ctrl+P} et \textit{Ctrl+N}
-(pour Previous et Next).
+\paragraph{Je n'ai plus mon historique de commande avec les flèches \frownie}
+Eh oui, maintenant que l'on a activé l'interface, les flèches sont utilisées
+pour bouger la fenêtre qui affiche le code. D'autres touches sont assignées
+pour remonter ou descendre dans l'historique: \textit{Ctrl+P} et
+\textit{Ctrl+N} (pour Previous et Next).
+
+\paragraph{Mon programme affiche du texte, et ça fout la merde avec l'interface
+	de GDB.} Pas de panique, il suffit de taper \textit{Ctrl+L} pour demander à
+GDB de réafficher l'interface. Ce n'est pas parfait, mais ça devrait permettre
+de vous en sortir dans la plupart des situations.
+
+\section{Savoir s'arrêter}
+
+\subsection{Les \textit{breakpoints}}
+
+\todo[inline,color=cyan]{break}
+\todo[inline,color=cyan]{rbreak}
+\todo[inline,color=cyan]{info breakpoints}
+\todo[inline,color=cyan]{enable / disable breakpoins \ldots}
+
+\subsection{Les \textit{watchpoints}}
+
+\todo[inline,color=cyan]{watch}
+
+\subsection{Les \textit{catchpoints}}
+
+\todo[inline,color=cyan]{catch throw}
+\todo[inline,color=cyan]{catch syscall \ldots}
+\todo[inline,color=cyan]{catch syscall group:\ldots}
