@@ -1,0 +1,84 @@
+\part{Annexes}
+
+\section{GDB}
+
+\subsection{À savoir}
+
+\begin{itemize}
+	\item Compiler avec l'option \texttt{-g} et de préférence sans
+		optimizations (sans \texttt{-O1}, \texttt{-O2}, etc.)
+	\item Lancer GDB avec le nom de l'exécutable en paramètre en
+		ligne de commande.
+	\item Dans l'interface de GDB, utiliser Ctrl+P et Ctrl+N pour
+		naviguer dans l'historique.
+	\item Dans l'interface de GDB, utiliser Ctrl+L pour réafficher l'écran.
+\end{itemize}
+
+\subsection{Cheatsheet}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{lp{9cm}}
+		\toprule
+
+		\textbf{Commande} & \textbf{Description}\\
+
+		\midrule
+
+		\texttt{tui enable} & Active l'interface graphique de GDB\\
+		\texttt{r(un)} & Lance le programme\\
+
+		\midrule
+
+		\texttt{bt} & Affiche la backtrace\\
+		\texttt{up} & Monte d'un niveau dans la backtrace\\
+		\texttt{down} & Descend d'un niveau dans la backtrace\\
+		\texttt{f(rame)} \textit{i} & Va à la frame \textit{i} dans
+			la backtrace\\
+
+		\midrule
+
+		\texttt{c(ontinue)} & Continue l'exécution du programme\\
+		\texttt{n(ext)} & Continue l'exécution du programme pas à pas\\
+		\texttt{s(tep)} & Continue l'exécution du programme pas à pas en
+			rentrant dans les fonctions\\
+
+		\midrule
+
+		\texttt{b(reak)} \textit{func} & Ajoute un point d'arrêt à la
+			fonction \textit{func}\\
+		\texttt{b(reak)} \textit{fichier}\texttt{:}\textit{ligne} & Ajoute
+			un point d'arrêt à un endroit précis dans un fichier
+			contenant du code source.\\
+		\texttt{b(reak)} \textit{endroit} \texttt{if} \textit{condition} &
+			Arrête le programme à l'\textit{endroit} spécifié si
+			\textit{condition}\\
+		\texttt{wa(tch)} \textit{variable} & Arrête le programme lors du
+			changement de valeur de la variable \textit{variable}\\
+
+		\midrule
+
+		\texttt{inf(o) b(reakpoints)} & Affiche la liste des points d'arrêts\\
+		\texttt{dis(able) b(reakpoints)} \textit{id} & Désactive le
+			point d'arrêt n°\textit{id} (tous si \textit{id} n'est
+			pas spécifié)\\
+		\texttt{en(able) b(reakpoints)} \textit{id} & Réactive le
+			point d'arrêt n°\textit{id} (tous si \textit{id} n'est
+			pas spécifié)\\
+		\texttt{d(elete) br(eakpoints)} \textit{id} & Supprime le
+			point d'arrêt n°\textit{id} (tous si \textit{id} n'est
+			pas spécifié)\\
+
+		\midrule
+
+		\texttt{catch throw} & Arrête le programme lors du lancement
+			d'une exception C++\\
+		\texttt{catch syscall} \textit{nom} & Arrête le programme lors de
+			l'appel système \textit{nom}\\
+		\texttt{catch syscall group:}\textit{nom} & Arrête le programme lors
+			d'un appel système du groupe \textit{nom}\\
+
+		\bottomrule
+	\end{tabular}
+	\caption{Cheatsheet de GDB}
+\end{table}

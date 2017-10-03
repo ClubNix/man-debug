@@ -267,21 +267,91 @@ pour remonter ou descendre dans l'historique: \textit{Ctrl+P} et
 GDB de réafficher l'interface. Ce n'est pas parfait, mais ça devrait permettre
 de vous en sortir dans la plupart des situations.
 
+\section{Savoir continuer}
+
+\todo[inline,color=cyan]{continue}
+\todo[inline,color=cyan]{next}
+\todo[inline,color=cyan]{step}
+
 \section{Savoir s'arrêter}
 
 \subsection{Les \textit{breakpoints}}
 
-\todo[inline,color=cyan]{break}
+\paragraph{} Les points d'arrêts (ou \textit{breakpoints} en anglais) sont la
+base du débogage. Ils sont tellements importants que l'on dispose de plusieures
+manières pour pouvoir en placer dans GDB. la première et la plus simple est
+d'utiliser la commande \texttt{break} (ou \texttt{b} pour les intimes). Cette
+commande prend en paramètre soit un nom de fonction, soit un endroit dans un
+fichier qui contient du code source.
+
+\paragraph{} Si on reprend notre exemple précédent, on peut demander à GDB de
+s'arrêter à la fonction \mintinline{c}{main} de deux manières:
+
+\begin{listing}
+	\begin{minted}[linenos=false]{text}
+		(gdb) b main
+		Breakpoint 1 at 0x4004bf: file main.c, line 5.
+		(gdb) r
+		Starting program: /tmp/my_program
+
+		Breakpoint 1, main () at main.c:5
+		5               printf("My string: %s", hello);
+		(gdb) _
+	\end{minted}
+	\caption{Je me suis arrêté au \mintinline{c}{main}}
+\end{listing}
+
+\begin{listing}
+	\begin{minted}[linenos=false]{text}
+		(gdb) b main.c:3
+		Breakpoint 1 at 0x4004bf: file main.c, line 3.
+		(gdb) r
+		Starting program: /tmp/my_program
+
+		Breakpoint 1, main () at main.c:5
+		5               printf("My string: %s", hello);
+		(gdb) _
+	\end{minted}
+	\caption{Je me suis \textbf{encore} arrêté au \mintinline{c}{main}}
+\end{listing}
+
+\paragraph{Je lui ai demandé de m'arrêter au \mintinline{c}{main} mais il m'a
+	arrêté deux lignes après} me direz vous. Et vous auriez entièrement raison,
+mais ce n'est pas un bug de GDB. Il faut se souvenir qu'une fois compilé, la
+représentation du code change, et bien que l'appel à la fonction
+\mintinline{c}{printf} se traduise bien en assembleur, ce n'est pas le cas des
+déclarations simples, comme la déclaration de la variable \mintinline{c}{hello}
+ou même de la fonction \mintinline{c}{main}. Ainsi, GDB va à la prochaine
+réelle instruction assembleur ayant une relation avec le code source, qui est
+dans ce cas ci l'appel à la fonction \mintinline{c}{printf}.
+
 \todo[inline,color=cyan]{rbreak}
 \todo[inline,color=cyan]{info breakpoints}
-\todo[inline,color=cyan]{enable / disable breakpoins \ldots}
+\todo[inline,color=cyan]{enable / disable breakpoints \ldots}
+\todo[inline,color=cyan]{break \ldots if \ldots}
+\todo[inline,color=cyan]{condition \ldots \ldots}
+\todo[inline,color=cyan]{delete breakpoints \ldots}
+
+% https://sourceware.org/gdb/onlinedocs/gdb/Set-Breaks.html
+% https://sourceware.org/gdb/onlinedocs/gdb/Disabling.html
+% https://sourceware.org/gdb/onlinedocs/gdb/Conditions.html
+% https://sourceware.org/gdb/onlinedocs/gdb/Delete-Breaks.html
 
 \subsection{Les \textit{watchpoints}}
 
 \todo[inline,color=cyan]{watch}
+\todo[inline,color=cyan]{info watchpoints}
+
+% https://sourceware.org/gdb/onlinedocs/gdb/Set-Watchpoints.html
 
 \subsection{Les \textit{catchpoints}}
 
 \todo[inline,color=cyan]{catch throw}
 \todo[inline,color=cyan]{catch syscall \ldots}
 \todo[inline,color=cyan]{catch syscall group:\ldots}
+
+% https://sourceware.org/gdb/onlinedocs/gdb/Set-Catchpoints.html
+
+\subsection{Le \mintinline{c}{printf} du futur}
+
+% https://sourceware.org/gdb/onlinedocs/gdb/Dynamic-Printf.html
